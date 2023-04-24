@@ -43,7 +43,7 @@ class AuthManager {
            }
            console.log(user,"user");
             var token = _this.signToken({ _id: user._id, email: user.email, role:user.role});
-            return ResponseManager.respondWithSuccess(res, 200, "", {access_token: token});
+            return ResponseManager.respondWithSuccess(res, 200, "", {access_token: token, email:user.email});
             
         });
         

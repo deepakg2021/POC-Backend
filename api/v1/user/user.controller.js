@@ -176,6 +176,20 @@ class UserController {
        }
     });
 }
+
+static getMe(req, res, next) {
+  UserModel.findOne({_id:req.body._id}, function(err, user){
+    console.log(err,"user")
+      if (err) {
+        return ResponseManager.respondWithError(res, 200, "User not found");
+      } else {
+        return ResponseManager.respondWithSuccess(res, 200, "success", user);
+      }
+  });
 }
+}
+
+
+
 
 exports = module.exports = UserController;

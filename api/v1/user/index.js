@@ -9,7 +9,7 @@ router.get('/view',UserController.getCaseDetails);
 router.get('/view-all-cases',UserController.getAll);
 router.post('/update', UserController.updateCaseDetails);
 router.post('/register', UserController.create);
-
+router.get('/getme', UserController.getMe);
 
 
 module.exports = router;
