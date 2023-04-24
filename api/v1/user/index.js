@@ -4,9 +4,10 @@ const router = express.Router();
 
 const UserController = require("./user.controller");
 
-router.post('/add', UserController.addUser);
-router.get('/view',UserController.getUserDetails)
-router.post('/update', UserController.updateUserDetails);
+router.post('/add-cases', UserController.addCases);
+router.get('/view',UserController.getCaseDetails);
+router.get('/view-all-cases',UserController.getAll);
+router.post('/update', UserController.updateCaseDetails);
 router.post('/register', UserController.create);
 
 

@@ -22,29 +22,26 @@ class AuthManager {
         _this._passport.authenticate('local-auth', function (err, user, info) {
         var error = err || info;
         if (error)
-          return ResponseManager.respondWithError(res, 200, error);
+        return ResponseManager.respondWithError(res, 200, error);
 
         if (!user) {
+
           return ResponseManager.respondWithError(res, 200, "Invalid credentials");
         }
-        if(req.body.q && req.body.q == 'admin' && user.role !== ROLES.ADMIN){
-             return ResponseManager.respondWithError(res, 200, "Invalid credentdsfdfgsdfgials");
-        }
-        if(!req.body.role &&  user.role !== ROLES.ADMIN){
-          console.log(user,'ROLES.ADMIN',"error");
-
-             return ResponseManager.respondWithError(res, 200, "Invalid credentials");
+        if(!req.body.role && user.role == ROLES.ADMIN){
+        
+             return ResponseManager.respondWithError(res, 200, "Invalid credensdfgdftials");
         }
         if(user.blocked === true){
            return ResponseManager.respondWithError(res, 200, "Your account is blocked.");
         }
         user.isLoggedIn = true;
-      
         user.save(function(err){
-           console.log(err);
+           
            if(err){
               return ResponseManager.respondWithError(res, 200, "Something went wrong.");
            }
+           console.log(user,"user");
             var token = _this.signToken({ _id: user._id, email: user.email, role:user.role});
             return ResponseManager.respondWithSuccess(res, 200, "", {access_token: token});
             
@@ -58,7 +55,8 @@ class AuthManager {
         if(!reqbody.country){
             return ResponseManager.respondWithError(res, 200, "Country was not provided");
         }else{
-            var token = _this.signToken({ _id: null, email: 'guest@mybeautysquad.com', role:'guest', country:reqbody.country});
+            // var token = _this.signToken({ _id: null, email: 'guest@mybeautysquad.com', role:'guest', country:reqbody.country});
+            let token = ""
             return ResponseManager.respondWithSuccess(res, 200, "", {access_token: token});
         }
     }
@@ -102,7 +100,8 @@ class AuthManager {
    }
 
    signToken(obj) {
-     return jwt.sign(obj, app.get('config').jwtSecret, { expiresIn: app.get('config').TOKEN_EXPIRY_TIME });
+    console.log(obj,"objs");
+     return jwt.sign(obj, "PjH7XCkNlI8mhvm747gMnz3AisIMjHzUCa3TJAJ4lWDe6duxKkKY0gFklCFi4i1wh7BU2iYpxmKOGwJqwmWKR6Idsx5w5yGpq2Ea0By8JvNi7TSGf04szRBrhaumVQSd");
    }
   
 }

@@ -1,12 +1,12 @@
-const User = require("../models/Users");
+const Case = require("../models/Case.model");
 const ResponseManager = require("../response/response-manager");
 const ROLES = require('../models/user.model').ROLES;
 const UserModel = require('../models/user.model').UserModel;
 
 class UserController {
-  static async addUser(req, res, next) {
+  static async addCases(req, res, next) {
     try {
-      const user = new User({
+      const Cases = new Case({
         name: req.body.name,
         dateOfBirth: req.body.dateOfBirth,
         sex: req.body.sex,
@@ -68,10 +68,10 @@ class UserController {
         prisonReleaseDate: req.body.prisonReleaseDate,
         prisonState: req.body.prisonState,
       });
-      console.log(user, "user");
-      const userDetails = await user.save();
-      console.log(userDetails._id, "userDetails");
-      if (!userDetails) {
+      console.log(Cases, "Cases");
+      const caseDetails = await Cases.save();
+      console.log(caseDetails._id, "userDetails");
+      if (!caseDetails) {
         return ResponseManager.respondWithError(
           res,
           200,
@@ -82,7 +82,7 @@ class UserController {
           res,
           200,
           "success",
-          userDetails
+          caseDetails
         );
       }
     } catch (error) {
@@ -96,14 +96,14 @@ class UserController {
     }
   }
 
-  static async getUserDetails(req, res, next) {
+  static async getCaseDetails(req, res, next) {
     console.log(req.query._id, "query");
     if (!req.query._id) {
       throw new Error("Crime Id not find");
     }
     try {
-      const userDetails = await User.findOne({ _id: req.query._id });
-      if (!userDetails) {
+      const caseDetails = await Case.findOne({ _id: req.query._id });
+      if (!caseDetails) {
         return ResponseManager.respondWithError(
           res,
           200,
@@ -114,7 +114,7 @@ class UserController {
           res,
           200,
           "success",
-          userDetails
+          caseDetails
         );
       }
     } catch (error) {
@@ -123,14 +123,24 @@ class UserController {
     }
   }
 
-  static async updateUserDetails(req, res, next) {
+  static getAll(req, res, next) {
+    Case.find({},function(err, users){
+      if(err)
+        return ResponseManager.respondWithError(res, 404, err);
+      else
+         return ResponseManager.respondWithSuccess(res, 200, "", users);
+     });
+ }
+
+
+  static async updateCaseDetails (req, res, next) {
     try {
       const update = { ...req.body };
       const found = { _id: req.query._id };
-      const updateUserDetails = await User.findOneAndUpdate(found, update, {
+      const updateCaseDetails = await Case.findOneAndUpdate(found, update, {
         new: true,
       });
-      if (!updateUserDetails) {
+      if (!updateCaseDetails) {
         return ResponseManager.respondWithError(
           res,
           200,
@@ -141,7 +151,7 @@ class UserController {
           res,
           200,
           "success",
-          updateUserDetails
+          updateCaseDetails
         );
       }
     } catch (error) {
